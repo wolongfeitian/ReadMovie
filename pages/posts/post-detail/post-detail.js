@@ -15,7 +15,44 @@ Page({
   onLoad: function (options) {
     var postId = options.id
     var postData = postsData.postList[postId]
-    console.log(postData)
+    this.data.currentPostId = postId
+    this.setData({
+      postData: postData
+    })
+
+    var postsCollected = wx.getStorageInfoSync('postsCollected')
+    if (postsCollected){
+      var postCollected = postsCollected[postId]
+      if (postCollected){
+        this.setData({
+          collected: postCollected
+        })
+      }
+      
+    }else{
+      var postCollected = {}
+      postCollected[postId] = false;
+      wx.setStorageSync('posts_collected', postCollected)
+    }
+    
+  },
+
+  onCollectionTap:function(event){
+    var postsCollected = wx.getStorageSync('posts_collected');
+    if (postsCollected==''){
+      postsCollected={}
+    }
+
+    var postCollected = postsCollected[this.data.currentPostId];
+
+    postCollected = !postCollected;
+
+    postsCollected[this.data.currentPostId] = postCollected;
+
+    wx.setStorageSync('posts_collected', postsCollected);
+    this.setData({
+      collected:postCollected
+    })
   },
 
   /**

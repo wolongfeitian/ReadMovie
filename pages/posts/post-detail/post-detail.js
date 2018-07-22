@@ -38,9 +38,30 @@ Page({
   },
 
   onCollectionTap:function(event){
+   // this.getPostsCollectedAsy();
+    this.getPostsCollectedSyc();
+  },
+
+  getPostsCollectedAsy: function () {
+    var that = this;
+    wx.getStorage({
+      key: "posts_collected",
+      success: function (res) {
+        var postsCollected = res.data;
+        var postCollected = postsCollected[that.data.currentPostId];
+        // 收藏变成未收藏，未收藏变成收藏
+        postCollected = !postCollected;
+        postsCollected[that.data.currentPostId] = postCollected;
+        that.showToast(postsCollected, postCollected);
+      }
+    })
+  },
+
+  getPostsCollectedSyc:function(){
+    var that = this;
     var postsCollected = wx.getStorageSync('posts_collected');
-    if (postsCollected==''){
-      postsCollected={}
+    if (postsCollected == '') {
+      postsCollected = {}
     }
 
     var postCollected = postsCollected[this.data.currentPostId];
@@ -49,10 +70,28 @@ Page({
 
     postsCollected[this.data.currentPostId] = postCollected;
 
-    wx.setStorageSync('posts_collected', postsCollected);
-    this.setData({
-      collected:postCollected
-    })
+    that.showToast(postsCollected, postCollected);
+  },
+
+  onMusicTap:function(){
+    var currentPostId = this.data.currentPostId;
+    var postData = postsData.postList[currentPostId];
+    var isPlayingMusic = this.data.isPlayingMusic;
+    if(isPlayingMusic){
+      wx.pauseBackgroundAudio();
+      this.setData({
+        isPlayingMusic: false
+      })
+    }else{
+      wx.playBackgroundAudio({
+        dataUrl: postData.music.url,
+        title: postData.music.title,
+        coverImgUrl: postData.music.coverImg
+      })
+      this.setData({
+        isPlayingMusic:true
+      })
+    }
   },
 
   /**
@@ -102,5 +141,19 @@ Page({
    */
   onShareAppMessage: function () {
     
+  },
+
+  showToast: function (postsCollected, postCollected) {
+    // 更新文章是否的缓存值
+    wx.setStorageSync('posts_collected', postsCollected);
+    // 更新数据绑定变量，从而实现切换图片
+    this.setData({
+      collected: postCollected
+    })
+    wx.showToast({
+      title: postCollected ? "收藏成功" : "取消成功",
+      duration: 1000,
+      icon: "success"
+    })
   }
 })

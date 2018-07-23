@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isPlayingMusic:false
+    isPlayingMusic: false
   },
 
   /**
@@ -23,37 +23,37 @@ Page({
     })
 
     var postsCollected = wx.getStorageInfoSync('postsCollected')
-    if (postsCollected){
+    if (postsCollected) {
       var postCollected = postsCollected[postId]
-      if (postCollected){
+      if (postCollected) {
         this.setData({
           collected: postCollected
         })
       }
-      
-    }else{
+
+    } else {
       var postCollected = {}
       postCollected[postId] = false;
       wx.setStorageSync('posts_collected', postCollected)
     }
 
-    if (app.globalData.g_isPlayingMusic && app.globalData.g_currentMusicPostId === postId){
+    if (app.globalData.g_isPlayingMusic && app.globalData.g_currentMusicPostId === postId) {
       this.setData({
-        isPlayingMusic:true
+        isPlayingMusic: true
       })
     }
     this.setMusicMonitor();
-    
+
   },
 
-  setMusicMonitor:function(){
+  setMusicMonitor: function () {
     var _this = this;
     wx.onBackgroundAudioPlay(function () {
       _this.setData({
         isPlayingMusic: true
       })
 
-      app.globalData.g_isPlayingMusic=true;
+      app.globalData.g_isPlayingMusic = true;
       app.globalData.g_currentMusicPostId = _this.data.currentPostId;
     })
 
@@ -67,8 +67,8 @@ Page({
     })
   },
 
-  onCollectionTap:function(event){
-   // this.getPostsCollectedAsy();
+  onCollectionTap: function (event) {
+    // this.getPostsCollectedAsy();
     this.getPostsCollectedSyc();
   },
 
@@ -87,7 +87,7 @@ Page({
     })
   },
 
-  getPostsCollectedSyc:function(){
+  getPostsCollectedSyc: function () {
     var that = this;
     var postsCollected = wx.getStorageSync('posts_collected');
     if (postsCollected == '') {
@@ -103,17 +103,17 @@ Page({
     that.showToast(postsCollected, postCollected);
   },
 
-  onMusicTap:function(){
+  onMusicTap: function () {
     var currentPostId = this.data.currentPostId;
     var postData = postsData.postList[currentPostId];
     var isPlayingMusic = this.data.isPlayingMusic;
     console.log(isPlayingMusic)
-    if(isPlayingMusic){
+    if (isPlayingMusic) {
       wx.pauseBackgroundAudio();
       this.setData({
         isPlayingMusic: false
       })
-    }else{
+    } else {
       console.log(222)
       wx.playBackgroundAudio({
         dataUrl: postData.music.url,
@@ -121,7 +121,7 @@ Page({
         coverImgUrl: postData.music.coverImg
       })
       this.setData({
-        isPlayingMusic:true
+        isPlayingMusic: true
       })
     }
   },
@@ -130,49 +130,49 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   },
 
   showToast: function (postsCollected, postCollected) {

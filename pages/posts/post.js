@@ -67,7 +67,12 @@ Page({
   onShareAppMessage: function () {
     
   },
-
+  onSwiperItemTap: function (event){
+    var postId = event.currentTarget.dataset.postid
+    wx.navigateTo({
+      url: 'post-detail/post-detail?id=' + postId,
+    })
+  },
   onPostTap:function(event){
     var postId = event.currentTarget.dataset.postid
     wx.navigateTo({

@@ -1,4 +1,5 @@
 var postsData = require("../../../data/posts-data.js")
+var app = getApp();
 
 Page({
 
@@ -6,13 +7,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    isPlayingMusic:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var globalData = app.globalData;
     var postId = options.id
     var postData = postsData.postList[postId]
     this.data.currentPostId = postId
@@ -34,7 +36,35 @@ Page({
       postCollected[postId] = false;
       wx.setStorageSync('posts_collected', postCollected)
     }
+
+    if (app.globalData.g_isPlayingMusic && app.globalData.g_currentMusicPostId === postId){
+      this.setData({
+        isPlayingMusic:true
+      })
+    }
+    this.setMusicMonitor();
     
+  },
+
+  setMusicMonitor:function(){
+    var _this = this;
+    wx.onBackgroundAudioPlay(function () {
+      _this.setData({
+        isPlayingMusic: true
+      })
+
+      app.globalData.g_isPlayingMusic=true;
+      app.globalData.g_currentMusicPostId = _this.data.currentPostId;
+    })
+
+    wx.onBackgroundAudioPause(function () {
+      _this.setData({
+        isPlayingMusic: false
+      })
+
+      app.globalData.g_isPlayingMusic = false;
+      app.globalData.g_currentMusicPostId = null
+    })
   },
 
   onCollectionTap:function(event){
@@ -77,12 +107,14 @@ Page({
     var currentPostId = this.data.currentPostId;
     var postData = postsData.postList[currentPostId];
     var isPlayingMusic = this.data.isPlayingMusic;
+    console.log(isPlayingMusic)
     if(isPlayingMusic){
       wx.pauseBackgroundAudio();
       this.setData({
         isPlayingMusic: false
       })
     }else{
+      console.log(222)
       wx.playBackgroundAudio({
         dataUrl: postData.music.url,
         title: postData.music.title,

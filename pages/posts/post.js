@@ -19,6 +19,28 @@ Page({
     });
   },
 
+  onPostTap: function (event) {
+    var postId = event.currentTarget.dataset.postid
+    wx.navigateTo({
+      url: 'post-detail/post-detail?id=' + postId,
+    })
+  },
+
+  onSwiperItemTap: function (event) {
+    var postId = event.currentTarget.dataset.postid
+    wx.navigateTo({
+      url: 'post-detail/post-detail?id=' + postId,
+    })
+  },
+
+  //target和currentTarget
+  //target是当前点击的组件  currentTarget是事件捕获的组件
+  onSwiperTap: function (event) {
+    var postId = event.target.dataset.postid
+    wx.navigateTo({
+      url: 'post-detail/post-detail?id=' + postId,
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -66,17 +88,6 @@ Page({
    */
   onShareAppMessage: function () {
     
-  },
-  onSwiperItemTap: function (event){
-    var postId = event.currentTarget.dataset.postid
-    wx.navigateTo({
-      url: 'post-detail/post-detail?id=' + postId,
-    })
-  },
-  onPostTap:function(event){
-    var postId = event.currentTarget.dataset.postid
-    wx.navigateTo({
-      url: 'post-detail/post-detail?id='+postId,
-    })
   }
+  
 })

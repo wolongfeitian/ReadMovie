@@ -2,8 +2,11 @@
   "pages": [
     "pages/welcome/welcome",
     "pages/posts/post",
-    "pages/movies/movie",
-    "pages/posts/post-detail/post-detail"
+    "pages/movies/movies",
+    "pages/posts/post-detail/post-detail",
+    "pages/movies/stars/stars-template",
+    "pages/movies/movie/movie-template",
+    "pages/movies/movie-list/movie-list-template"
   ],
   "window": {
     "navigationBarBackgroundColor": "#405f80"
@@ -17,7 +20,7 @@
         "selectedIconPath":"images/tab/yuedu_hl.png"
       },
       {
-      "pagePath": "pages/movies/movie",
+      "pagePath": "pages/movies/movies",
       "text": "电影",
       "iconPath": "/images/tab/dianying.png",
       "selectedIconPath": "images/tab/dianying_hl.png"

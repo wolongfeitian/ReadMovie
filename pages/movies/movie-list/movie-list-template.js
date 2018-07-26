@@ -1,4 +1,4 @@
-// pages/movies/movie.js
+// pages/movies/movie-list/movie-list-template.js
 Page({
 
   /**

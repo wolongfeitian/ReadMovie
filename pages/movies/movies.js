@@ -13,7 +13,8 @@ Page({
     comingSoon:{},
     top250:{},
     containerShow:true,
-    searchPanelShow:false
+    searchPanelShow:false,
+    searchResult:{}
   },
 
   /**
@@ -62,8 +63,15 @@ Page({
   onBindFocus:function(){
     this.setData({
       containerShow:false,
-      searchPanelShow:true
+      searchPanelShow:true,
+      searchResult:{}
     })
+  },
+
+  onBindChange:function(event){
+    var text = event.detail.value;
+    var searchUrl = app.globalData.doubanBase + "/v2/movie/search?q=" + text
+    this.getMovieListData(searchUrl,"searchResult","")
   },
 
   processDoubanData: function (moviesDouban, settedKey, categoryTitle){

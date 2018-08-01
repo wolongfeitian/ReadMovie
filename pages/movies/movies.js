@@ -11,7 +11,9 @@ Page({
   data: {
     inTheaters:{},
     comingSoon:{},
-    top250:{}
+    top250:{},
+    containerShow:true,
+    searchPanelShow:false
   },
 
   /**
@@ -46,6 +48,21 @@ Page({
       success: function (res) {
         that.processDoubanData(res.data, settedKey, categoryTitle);
       }
+    })
+  },
+
+  onCancelImgTap:function(){
+    this.setData({
+      containerShow:true,
+      searchPanelShow:false
+
+    })
+  },
+
+  onBindFocus:function(){
+    this.setData({
+      containerShow:false,
+      searchPanelShow:true
     })
   },
 

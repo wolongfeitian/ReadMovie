@@ -1,0 +1,16 @@
+@import "../movie/movie-template.wxss";
+.single-view-container{
+  float: left;
+  margin-bottom: 40rpx
+}
+
+.placeholder{
+  font-size: 14px;
+  color: #d1d1d1;
+  margin-left: 20rpx;
+}
+
+.grid-container{
+  margin: 40rpx 0 40rpx 6rpx;
+  height: 1300rpx;
+}
